@@ -1687,46 +1687,52 @@
         <p><strong>Parking:</strong> On-site parking is available free for all attending guests and can be left overnight if needed.</p>
       </div>
     </section>
+    <!-- RSVP SECTION -->
+        <section id="rsvp" class="page-section">
+          <h2 class="section-title">RSVP</h2>
+          <p class="section-subtitle">Kindly respond by 1st April 2028</p>
 
-    <!-- 4. RSVP PAGE -->
-    <section id="rsvp" class="page-section">
-      <h1 class="section-title">RSVP</h1>
-      <div class="section-subtitle">Kindly Respond by August 1, 2026</div>
-
-      <div class="content-card" style="max-width: 600px; margin: 0 auto;">
-        <form id="fullRsvpForm">
-          <div class="form-group">
-            <label for="rsvpName">Your Full Name *</label>
-            <input type="text" id="rsvpName" class="form-control" required placeholder="Jane Doe">
-          </div>
-
-          <div class="form-group">
-            <label for="rsvpEmail">Email Address *</label>
-            <input type="email" id="rsvpEmail" class="form-control" required placeholder="jane@example.com">
-          </div>
-
-          <div class="form-group">
-            <label>Will You Be Attending? *</label>
-            <div class="radio-group">
-              <label class="radio-label"><input type="radio" name="attending" value="Yes" checked> Joyfully Accept</label>
-              <label class="radio-label"><input type="radio" name="attending" value="No"> Regretfully Decline</label>
+          <form class="form-card" onsubmit="event.preventDefault(); alert('Thank you for your RSVP!');">
+            <div class="form-group">
+              <label for="fullname">Full Name(s)</label>
+              <input type="text" id="fullname" required placeholder="Enter your full name">
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="dietary">Dietary Requirements or Allergies</label>
-            <input type="text" id="dietary" class="form-control" placeholder="Vegetarian, Gluten-Free, Nut Allergy, etc.">
-          </div>
+            <div class="form-group">
+              <label for="attendance">Will you be attending?</label>
+              <select id="attendance" required>
+                <option value="">Select Response</option>
+                <option value="yes">Joyfully Accepts</option>
+                <option value="no">Regretfully Declines</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label for="songReq">Song Request for the Dance Floor 🎵</label>
-            <input type="text" id="songReq" class="form-control" placeholder="Artist & Song Title">
-          </div>
+            <div class="form-group">
+              <label for="dietary">Dietary Requirements</label>
+              <select id="dietary" onchange="toggleOtherDietary(this)" required>
+                <option value="None">None (Standard Menu)</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Coeliac">Coeliac</option>
+                <option value="Gluten-Free">Gluten-Free</option>
+                <option value="Nut Allergy">Nut Allergy</option>
+                <option value="Other Allergy">Other Allergy</option>
+              </select>
+            </div>
 
-          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Submit Response</button>
-        </form>
-      </div>
-    </section>
+            <div class="form-group" id="other-dietary-container" style="display: none;">
+              <label for="other-dietary">Please specify allergy or dietary requirement</label>
+              <input type="text" id="other-dietary" placeholder="Provide details here...">
+            </div>
+
+            <div class="form-group">
+              <label for="song">Song Request</label>
+              <input type="text" id="song" placeholder="What song will get you on the dancefloor?">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit RSVP</button>
+          </form>
+        </section>
 
     <!-- 5. THE WEDDING PARTY PAGE -->
     <section id="wedding-party" class="page-section">
@@ -1756,52 +1762,64 @@
         </div>
       </div>
     </section>
+    <!-- PHOTO UPLOAD SECTION -->
+        <section id="photos" class="page-section">
+          <h2 class="section-title">Photo Upload</h2>
+          <p class="section-subtitle">Share your photos from our special day</p>
 
-    <!-- 6. PHOTO UPLOAD PAGE -->
-    <section id="photo-upload" class="page-section">
-      <h1 class="section-title">Photo Upload</h1>
-      <div class="section-subtitle">Share Your Favorite Memories With Us</div>
+          <div class="form-card" style="text-align: center;">
+            <p style="margin-bottom: 20px;">Upload your photos directly to our digital wedding album below:</p>
+            <div class="form-group">
+              <input type="file" multiple accept="image/*" style="border: 2px dashed var(--accent-gold); padding: 30px; cursor: pointer; background: #fff;">
+            </div>
+            <button class="btn-submit" onclick="alert('Photos uploaded successfully!')">Upload Photos</button>
+          </div>
 
-      <div class="content-card" style="max-width: 650px; margin: 0 auto;">
-        <div class="dropzone" id="dropzone">
-          <p style="font-size: 2.2rem; margin: 0 0 0.5rem;">📸</p>
-          <h3 style="font-family: var(--font-heading); color: var(--blue-darker); margin: 0 0 0.5rem;">Drag &amp; Drop Photos Here</h3>
-          <p style="margin: 0; font-size: 0.9rem; color: #666;">or click to select files from your phone/device</p>
-          <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
-        </div>
-        <div id="filePreviewList" style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.8rem;"></div>
-      </div>
-    </section>
+          <div class="hashtag-card">
+            <p>Sharing on social media? Please use our official hashtag:</p>
+            <h3>#thewilliams-smiths</h3>
+          </div>
+        </section>
 
-    <!-- 7. FAQS PAGE -->
-    <section id="faqs" class="page-section">
-      <h1 class="section-title">Frequently Asked Questions</h1>
-      <div class="section-subtitle">Everything You Need To Know</div>
+        <!-- OTHER PAGES PLACEHOLDERS -->
+            <section id="story" class="page-section">
+              <h2 class="section-title">Our Story</h2>
+              <p style="text-align: center; color: var(--text-light);">Details coming soon...</p>
+            </section>
 
-      <div style="max-width: 750px; margin: 0 auto;">
-        <div class="faq-item">
-          <button class="faq-question">Are children invited? <span>+</span></button>
-          <div class="faq-answer">While we love your little ones, our wedding will be an adults-only celebration. We appreciate you making arrangements in advance!</div>
-        </div>
+            <section id="wedding-party" class="page-section">
+              <h2 class="section-title">Wedding Party</h2>
+              <p style="text-align: center; color: var(--text-light);">Meet our groomsmaids & bridal party!</p>
+            </section>
 
-        <div class="faq-item">
-          <button class="faq-question">Can I bring a plus-one? <span>+</span></button>
-          <div class="faq-answer">Due to venue capacity restrictions, we can only accommodate guests formally named on your invitation envelope.</div>
-        </div>
+            <section id="getting-there" class="page-section">
+              <h2 class="section-title">Getting There</h2>
+              <p style="text-align: center; color: var(--text-light);">Location map and directions to Wentworth Woodhouse.</p>
+            </section>
 
-        <div class="faq-item">
-          <button class="faq-question">Is the ceremony indoor or outdoor? <span>+</span></button>
-          <div class="faq-answer">Our ceremony will take place in the Long Gallery, with drinks served outdoors on the garden lawn weather permitting.</div>
-        </div>
+            <section id="hotels" class="page-section">
+              <h2 class="section-title">Hotels & Taxis</h2>
+              <p style="text-align: center; color: var(--text-light);">Recommended accommodation options nearby.</p>
+            </section>
 
-        <div class="faq-item">
-          <button class="faq-question">Where should I stay? <span>+</span></button>
-          <div class="faq-answer">We have some special rates secured at nearby hotel Tankersley Manor. Quote "Natalie &amp; Victoria Wedding" for a discounted rate.</div>
-        </div>
-      </div>
-    </section>
+            <section id="venue" class="page-section">
+              <h2 class="section-title">The Venue</h2>
+              <p style="text-align: center; color: var(--text-light);">Learn more about historic Wentworth Woodhouse.</p>
+            </section>
 
-  </main>
+            <section id="faqs" class="page-section">
+              <h2 class="section-title">Frequently Asked Questions</h2>
+              <div class="info-card" style="margin-bottom: 15px;">
+                <h3>Can I bring a plus one?</h3>
+                <p>Due to capacity limits, we can only accommodate guests named on your invitation.</p>
+              </div>
+              <div class="info-card">
+                <h3>Are children invited?</h3>
+                <p>We love your little ones, but our wedding day will be an adult-only celebration.</p>
+              </div>
+            </section>
+
+          </main>
 
   <footer class="site-footer">
     <p>Natalie &amp; Victoria — Monday 5th June 2028</p>
@@ -2080,6 +2098,67 @@
       }
     }
   });
+    <!-- ==========================================
+           5. JAVASCRIPT
+      =========================================== -->
+      <script>
+        // Envelope Animation & Open Logic
+        function handleEnvelopeClick() {
+          const wrapper = document.getElementById('envelope-wrapper');
+          const overlay = document.getElementById('envelope-overlay');
+
+          // Trigger un-folding animation
+          wrapper.classList.add('open');
+
+          // Fade out overlay after animation completes
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+          }, 1200);
+        }
+
+        // Reopen Envelope function (via Nav bar button)
+        function reopenEnvelope() {
+          const wrapper = document.getElementById('envelope-wrapper');
+          const overlay = document.getElementById('envelope-overlay');
+
+          wrapper.classList.remove('open');
+          overlay.classList.remove('hidden');
+        }
+
+        // Page Tab Switching Logic
+        function switchPage(pageId) {
+          // Hide all page sections
+          const sections = document.querySelectorAll('.page-section');
+          sections.forEach(sec => sec.classList.remove('active'));
+
+          // Show selected page section
+          const activeSection = document.getElementById(pageId) || document.getElementById('home');
+          activeSection.classList.add('active');
+
+          // Update Nav active style
+          const navLinks = document.querySelectorAll('.nav-link');
+          navLinks.forEach(link => link.classList.remove('active'));
+
+          // Scroll smoothly to top of content
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Conditional RSVP Other Allergy Field
+        function toggleOtherDietary(selectElement) {
+          const otherContainer = document.getElementById('other-dietary-container');
+          const otherInput = document.getElementById('other-dietary');
+
+          if (selectElement.value === 'Other Allergy') {
+            otherContainer.style.display = 'block';
+            otherInput.setAttribute('required', 'required');
+          } else {
+            otherContainer.style.display = 'none';
+            otherInput.removeAttribute('required');
+          }
+        }
+      </script>
+    </body>
+    </html>
 </script>
 </body>
 </html>
