@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Natalie &amp; Victoria — Save the Date</title>
+
+<!-- Fonts: Melodrama (Fontshare) & Nunito (Google Fonts) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=melodrama@500,600&display=swap" rel="stylesheet">
+
 <style>
   :root {
     --blue: #7f97a6;
@@ -12,8 +19,14 @@
     --cream: #f4efe6;
     --gold: #cbb27e;
     --gold-dark: #a98d54;
+    --sage: #9caf88;
+    --sage-dark: #788a74;
     --text-color: #2c3e50;
     --shadow: rgba(30, 45, 55, 0.25);
+
+    /* Typography Variables */
+    --font-heading: 'Melodrama', 'Georgia', serif;
+    --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +40,7 @@
 
   body {
     background: radial-gradient(circle at 50% 18%, #f8fafb 0%, #dfe4e6 55%, #ccd3d6 100%);
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,9 +68,11 @@
     left: 50%;
     transform: translateX(-50%);
     color: var(--blue-darker);
-    letter-spacing: 0.25em;
+    font-family: var(--font-body);
+    letter-spacing: 0.2em;
     font-size: clamp(11px, 3.2vw, 13px);
     text-transform: uppercase;
+    font-weight: 600;
     opacity: 0.85;
     transition: opacity 0.5s ease;
     pointer-events: none;
@@ -173,10 +188,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Snell Roundhand', 'Brush Script MT', cursive;
+    font-family: var(--font-heading);
     color: #4a3b1e;
-    font-size: 1.1em;
-    font-weight: bold;
+    font-size: 1.15em;
+    font-weight: 500;
     z-index: 5;
     transition: transform 0.5s ease 0.05s, opacity 0.4s ease 0.05s;
   }
@@ -214,21 +229,21 @@
     padding: 0.85em 1.8em;
     border-radius: 999px;
     border: none;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
     color: #ffffff;
-    font-family: inherit;
+    font-family: var(--font-body);
     font-size: clamp(12px, 3.6vw, 15px);
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 0.4em 1em rgba(169, 141, 84, 0.35);
+    box-shadow: 0 0.4em 1em rgba(120, 138, 116, 0.35);
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
 
   .btn-primary:active {
     transform: scale(0.97);
-    box-shadow: 0 0.2em 0.5em rgba(169, 141, 84, 0.2);
+    box-shadow: 0 0.2em 0.5em rgba(120, 138, 116, 0.2);
   }
 
   .btn-secondary {
@@ -237,9 +252,10 @@
     border: 1px solid var(--blue-dark);
     background: transparent;
     color: var(--blue-darker);
-    font-family: inherit;
+    font-family: var(--font-body);
     font-size: clamp(10px, 3vw, 12px);
-    letter-spacing: 0.1em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
     opacity: 0.8;
@@ -291,9 +307,10 @@
 
   .modal-header h2 {
     margin: 0;
-    font-size: 1.4rem;
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
     color: var(--blue-darker);
-    font-weight: normal;
+    font-weight: 500;
   }
 
   .close-btn {
@@ -303,6 +320,7 @@
     color: var(--blue-dark);
     cursor: pointer;
     padding: 0.2rem 0.5rem;
+    font-family: var(--font-body);
   }
 
   .form-group {
@@ -312,7 +330,9 @@
 
   .form-group label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-weight: 700;
     color: var(--blue-darker);
     margin-bottom: 0.3rem;
     text-transform: uppercase;
@@ -325,16 +345,16 @@
     border: 1px solid rgba(95, 118, 134, 0.3);
     border-radius: 0.5rem;
     background: #ffffff;
-    font-family: inherit;
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
     color: var(--text-color);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .form-control:focus {
     outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(203, 178, 126, 0.25);
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.25);
   }
 
   textarea.form-control {
@@ -353,6 +373,7 @@
     align-items: center;
     gap: 0.4rem;
     font-size: 0.9rem;
+    font-family: var(--font-body);
     cursor: pointer;
     color: var(--text-color);
   }
@@ -365,7 +386,9 @@
     border-radius: 0.5rem;
     background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-darker) 100%);
     color: var(--cream);
+    font-family: var(--font-body);
     font-size: 1rem;
+    font-weight: 600;
     letter-spacing: 0.05em;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -385,6 +408,18 @@
     text-align: center;
     padding: 2rem 1rem;
     color: var(--blue-darker);
+  }
+
+  .success-message h3 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .success-message p {
+    font-family: var(--font-body);
+    margin: 0;
   }
 
   @media (min-width: 600px) {
@@ -408,7 +443,7 @@
     <div class="env-back"></div>
     <div class="pocket">
       <div class="card">
-        <img src="data:image/png;base64,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" alt="Save the Date">
+        <img src="images/save.jpg" alt="Save the Date">
       </div>
     </div>
     <div class="env-front"></div>
