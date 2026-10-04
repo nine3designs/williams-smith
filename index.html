@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +29,7 @@
 
     --white:       #ffffff;
     --cream:       #f4efe6;  /* envelope stage accents */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='0.42'/%3E%3C/svg%3E");
     --sage:        #9caf88;
     --sage-deep:   #788a74;
     --gold:        #cbb27e;
@@ -153,14 +153,24 @@
 
   .env-back {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-    background: linear-gradient(160deg, #90a9b5 0%, #7c94a1 100%);
+    background:
+      var(--paper-grain),
+      linear-gradient(165deg, #9db2bd 0%, #8ba3af 48%, #7e96a3 100%);
+    background-blend-mode: overlay, normal;
+    background-size: 180px 180px, 100% 100%;
     border-radius: .3em;
-    box-shadow: 0 1.8em 3.5em -1.2em var(--shadow, rgba(30,45,55,.35)), 0 .5em 1.1em rgba(0,0,0,.18);
+    box-shadow:
+      0 1.9em 3.6em -1.2em rgba(30,45,55,.5),
+      0 .5em 1.1em rgba(0,0,0,.18),
+      inset 0 1px 0 rgba(255,255,255,.5),
+      inset 0 -1px 0 rgba(41,58,68,.28);
   }
-  .env-back::after {
+  .env-back::after { /* fine linen weave */
     content: ''; position: absolute; inset: .4em;
-    background: repeating-linear-gradient(45deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 10px, transparent 10px, transparent 20px);
-    border-radius: .2em;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(46,64,75,.055) 0 1px, transparent 1px 3px);
+    border-radius: .2em; opacity: .55;
   }
 
   .pocket {
@@ -193,28 +203,62 @@
 
   .env-front {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-    background: linear-gradient(160deg, #7d95a2 0%, #718998 100%);
+    background:
+      var(--paper-grain),
+      linear-gradient(160deg, #8399a6 0%, #748c9a 55%, #6d8593 100%);
+    background-blend-mode: overlay, normal;
+    background-size: 180px 180px, 100% 100%;
     clip-path: polygon(0% 32%, 50% 60%, 100% 32%, 100% 100%, 0% 100%);
-    z-index: 3; filter: drop-shadow(0 -2px 4px rgba(0,0,0,.1));
+    z-index: 3;
   }
+  .env-front::before { /* soft daylight sweep across the pocket */
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,0) 42%);
+  }
+  .env-front { filter: drop-shadow(0 -3px 5px rgba(31,44,53,.2)); }
 
   .flap {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-    background: linear-gradient(200deg, #93abb7 0%, #7c94a1 100%);
+    background:
+      var(--paper-grain),
+      linear-gradient(202deg, #9db3be 0%, #869dab 58%, #7a92a0 100%);
+    background-blend-mode: overlay, normal;
+    background-size: 180px 180px, 100% 100%;
     clip-path: polygon(0% 0%, 100% 0%, 100% 32%, 50% 60%, 0% 32%);
     transform-origin: top center; transform-style: preserve-3d;
-    transition: transform .85s cubic-bezier(.5,-0.2,.4,1.3); z-index: 4;
+    transition: transform .95s cubic-bezier(.6,-0.15,.32,1.22) .05s;
+    z-index: 4; filter: drop-shadow(0 2px 3px rgba(30,45,55,.22));
   }
   .stage.opened .flap { transform: rotateX(178deg); z-index: 1; }
 
   .seal {
-    position: absolute; left: 50%; top: 3.41em; width: 3.2em; height: 3.2em;
-    transform: translate(-50%, -50%); border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, #eee1c3, var(--gold) 55%, var(--gold-deep) 100%);
-    box-shadow: 0 .25em .6em rgba(0,0,0,.35), inset 0 .08em .15em rgba(255,255,255,.6);
+    position: absolute; left: 50%; top: 3.41em; width: 3.45em; height: 3.45em;
+    transform: translate(-50%, -50%);
+    border-radius: 47% 53% 50% 50% / 52% 49% 51% 48%;
+    background:
+      var(--paper-grain),
+      radial-gradient(circle at 30% 26%, #f4e7c8 0%, var(--gold) 46%, var(--gold-deep) 78%, #8a6f3a 100%);
+    background-blend-mode: overlay, normal;
+    background-size: 90px 90px, 100% 100%;
+    box-shadow:
+      0 .3em .7em rgba(0,0,0,.38),
+      0 .08em .18em rgba(0,0,0,.28),
+      inset 0 -.14em .3em rgba(94,72,32,.55),
+      inset 0 .12em .22em rgba(255,246,222,.75);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-display); color: #4a3b1e; font-size: 1.15em; font-weight: 500;
-    z-index: 5; transition: transform .5s ease .05s, opacity .4s ease .05s;
+    text-shadow: 0 1px 0 rgba(255,240,200,.65);
+    z-index: 5; transition: transform .55s cubic-bezier(.5,-0.3,.6,1.2) .12s, opacity .45s ease .12s;
+  }
+  .seal::before { /* embossed wax rim */
+    content: ''; position: absolute; inset: .18em; border-radius: inherit;
+    border: 1px solid rgba(122,95,44,.55);
+    box-shadow: inset 0 1px 2px rgba(255,244,214,.5), inset 0 -1px 2px rgba(94,72,32,.4);
+  }
+  .seal::after { /* wax glint */
+    content: ''; position: absolute; left: 17%; top: 11%; width: 36%; height: 24%;
+    background: radial-gradient(ellipse at center, rgba(255,252,240,.9), rgba(255,252,240,0) 70%);
+    border-radius: 50%; transform: rotate(-18deg); filter: blur(1px); pointer-events: none;
   }
   .stage.opened .seal { transform: translate(-50%, -50%) scale(.2) rotate(45deg); opacity: 0; }
   .stage.opened .card {
@@ -235,6 +279,72 @@
     pointer-events: none; z-index: 10;
   }
   .stage.opened .actions { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  /* --- Unlock reveal choreography --- */
+  #revealVeil {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(62% 46% at 50% 44%, rgba(203,178,126,.32), rgba(203,178,126,0) 72%),
+      linear-gradient(175deg, #94abb6 0%, var(--blue) 48%, #7d95a2 100%);
+    opacity: 0; visibility: hidden; pointer-events: none;
+  }
+  #revealVeil .veil-inner { text-align: center; }
+  #revealVeil .veil-kicker {
+    font-size: .66rem; letter-spacing: .42em; text-transform: uppercase; font-weight: 600;
+    color: rgba(244,239,230,.8); margin-bottom: .8rem;
+  }
+  #revealVeil .veil-monogram {
+    font-family: var(--font-display); font-weight: 500; color: var(--cream);
+    font-size: clamp(2.8rem, 11vw, 5rem); line-height: 1.05;
+    text-shadow: 0 2px 16px rgba(30,45,55,.3);
+  }
+  #revealVeil .veil-monogram .amp { font-style: italic; opacity: .95; padding: 0 .04em; }
+  #revealVeil .veil-date {
+    margin-top: .8rem; font-family: var(--font-display); letter-spacing: .3em;
+    font-size: clamp(.8rem, 3.4vw, 1rem); color: rgba(244,239,230,.85);
+    display: flex; align-items: center; justify-content: center; gap: .6em;
+  }
+  #revealVeil .veil-date::before, #revealVeil .veil-date::after {
+    content: ''; height: 1px; width: 2.6em; background: rgba(244,239,230,.5);
+  }
+  #revealVeil.play { animation: veilBloom 2s cubic-bezier(.45,0,.2,1) both; }
+  @keyframes veilBloom {
+    0% { opacity: 0; visibility: visible; }
+    20% { opacity: 1; }
+    74% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+  #revealVeil.play .veil-inner { animation: veilContent 2s cubic-bezier(.4,0,.2,1) both; }
+  @keyframes veilContent {
+    0% { opacity: 0; transform: scale(.94); filter: blur(8px); }
+    28% { opacity: 1; transform: scale(1); filter: blur(0); }
+    70% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.035); filter: blur(3px); }
+  }
+  .stage.farewell .envelope-wrap {
+    transition: transform 1.05s cubic-bezier(.55,0,.25,1), opacity .95s ease .08s, filter .95s ease .08s;
+    transform: translateY(-15vh) scale(.85) rotateX(9deg);
+    opacity: 0; filter: blur(5px);
+  }
+  .stage.farewell .stage-title { opacity: 0; transition: opacity .45s ease; }
+  .stage.farewell .actions { opacity: 0 !important; pointer-events: none !important; transition: opacity .3s ease; }
+  #fullSiteView.entering { animation: siteIn 1.1s cubic-bezier(.22,.9,.3,1) both; }
+  @keyframes siteIn {
+    from { opacity: 0; transform: scale(1.02); filter: blur(10px); }
+    to { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+  .pw-shake { animation: pwShake .4s ease; }
+  @keyframes pwShake { 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
+  .pw-kicker {
+    font-size: .6rem; letter-spacing: .4em; text-transform: uppercase; font-weight: 600;
+    color: var(--gold-deep); margin-bottom: .35rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #fullSiteView.entering { animation: none; }
+    #revealVeil { display: none; }
+    .stage.farewell .envelope-wrap { transition: opacity .3s ease; transform: none; filter: none; }
+  }
 
   .btn-primary {
     padding: .85em 1.9em; border-radius: 999px;
@@ -743,6 +853,15 @@
 </head>
 <body class="locked">
 
+<!-- Reveal veil — plays as the full site unlocks -->
+<div id="revealVeil" aria-hidden="true">
+  <div class="veil-inner">
+    <div class="veil-kicker">Welcome</div>
+    <div class="veil-monogram">N <span class="amp">&amp;</span> V</div>
+    <div class="veil-date">05 &middot; JUNE &middot; 2028</div>
+  </div>
+</div>
+
 <!-- =========================================================
      VIEW 1 — SAVE THE DATE (ENVELOPE)
      ========================================================= -->
@@ -770,7 +889,7 @@
     <div class="actions">
       <button class="btn-primary" id="openFormBtn">Send Your Details</button>
       <button class="btn-secondary" id="replayBtn">Replay Animation</button>
-      <button class="pw-link-btn" id="openPwModalBtn">Have a guest password?</button>
+      <button class="pw-link-btn" id="openPwModalBtn">Have a Password?</button>
     </div>
   </div>
 </div>
@@ -826,7 +945,10 @@
 <div class="modal-overlay" id="pwModalOverlay">
   <div class="modal-card">
     <div class="modal-header">
-      <h2>Early Website Access</h2>
+      <div>
+        <div class="pw-kicker">N &amp; V &middot; Wentworth Woodhouse</div>
+        <h2>You're Too Early! Check back later.</h2>
+      </div>
       <button class="close-btn" id="closePwModalBtn" aria-label="Close">&times;</button>
     </div>
     <form id="passwordForm">
@@ -909,7 +1031,7 @@
           <circle cx="4" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
           <circle cx="116" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
         </svg>
-          <h2 style="font-size:1.6rem;">Welcome Friends &amp; Family!</h2>
+          <h2 style="font-size:1.6rem;">Welcome to our Wedding Website.!</h2>
           <p>We cannot wait to celebrate our love with all our favourite people. Here you will find all the details regarding our big day — the schedule, travel information and RSVP options.</p>
         </div>
       </div>
@@ -1277,26 +1399,59 @@
       }
     });
 
-    // --- 3. UNLOCK FULL WEBSITE ---
-    function unlockWebsite() {
-      document.body.classList.remove('locked');
-      saveTheDateView.style.display = 'none';
-      fullSiteView.style.display = 'flex';
-      window.scrollTo(0, 0);
+    // --- 3. UNLOCK FULL WEBSITE (choreographed reveal) ---
+    const revealVeil = document.getElementById('revealVeil');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function unlockWebsite(fast = false) {
+      if (document.body.classList.contains('unlocked')) return;
+      document.body.classList.add('unlocked');
       try { localStorage.setItem('nv_wedding_unlocked', 'true'); } catch (err) { /* private mode */ }
+
+      const reveal = () => {
+        document.body.classList.remove('locked');
+        saveTheDateView.style.display = 'none';
+        fullSiteView.style.display = 'flex';
+        window.scrollTo(0, 0);
+        fullSiteView.classList.add('entering');
+        setTimeout(() => fullSiteView.classList.remove('entering'), 1150);
+      };
+
+      if (fast || prefersReducedMotion) { reveal(); return; }
+      stage.classList.add('farewell');
+      revealVeil.classList.add('play');
+      setTimeout(reveal, 1150);
+      setTimeout(() => {
+        revealVeil.classList.remove('play');
+        stage.classList.remove('farewell');
+      }, 2100);
     }
 
     let unlocked = false;
     try { unlocked = localStorage.getItem('nv_wedding_unlocked') === 'true'; } catch (err) {}
-    if (unlocked) unlockWebsite();
+    if (unlocked) unlockWebsite(true);
 
     passwordForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const unlockBtn = passwordForm.querySelector('button[type="submit"]');
       if (sitePasswordInput.value.trim().toLowerCase() === ACCESS_PASSWORD) {
+        pwError.style.display = 'none';
+        sitePasswordInput.classList.remove('pw-shake');
+        unlockBtn.disabled = true;
+        const originalLabel = unlockBtn.textContent;
+        unlockBtn.textContent = 'Unlocking\u2026';
         pwModalOverlay.classList.remove('active');
-        unlockWebsite();
+        setTimeout(() => {
+          unlockWebsite();
+          unlockBtn.disabled = false;
+          unlockBtn.textContent = originalLabel;
+          sitePasswordInput.value = '';
+        }, 350);
       } else {
         pwError.style.display = 'block';
+        sitePasswordInput.classList.remove('pw-shake');
+        void sitePasswordInput.offsetWidth;
+        sitePasswordInput.classList.add('pw-shake');
       }
     });
 
