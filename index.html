@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="images/bridge.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Natalie &amp; Victoria - Save The Date</title>
+<title>Natalie &amp; Victoria — 5th June 2028 — Wentworth Woodhouse</title>
 <meta name="description" content="Natalie & Victoria are getting married on Monday 5th June 2028 at Wentworth Woodhouse, South Yorkshire. RSVP, schedule, travel and everything you need for the day.">
 <meta name="theme-color" content="#7e96a3">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23cbb27e'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='24' fill='%23445866' text-anchor='middle'%3EN%26V%3C/text%3E%3C/svg%3E">
@@ -1032,28 +1031,23 @@
           <circle cx="4" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
           <circle cx="116" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
         </svg>
-          <h2 style="font-size:1.6rem;">Welcome to our Wedding Website!</h2>
+          <h2 style="font-size:1.6rem;">Welcome Friends &amp; Family!</h2>
           <p>We cannot wait to celebrate our love with all our favourite people. Here you will find all the details regarding our big day — the schedule, travel information and RSVP options.</p>
         </div>
       </div>
 
       <div class="card-grid">
-        <div class="content-card"><center>
-            <svg class="sprig" viewBox="0 0 120 18" fill="none" aria-hidden="true">
-            <path d="M4 9 H 48" stroke="rgba(169,141,84,.55)" stroke-width="1"/>
-            <path d="M72 9 H 116" stroke="rgba(169,141,84,.55)" stroke-width="1"/>
-            <path d="M60 2.6 L 66.4 9 L 60 15.4 L 53.6 9 Z" stroke="rgba(169,141,84,.8)" stroke-width="1" fill="none"/>
-            <circle cx="4" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
-            <circle cx="116" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
-          </svg>
-          <h3>When & Where</h3>
+        <div class="content-card">
+          <h3>When</h3>
           <p><strong>Monday, 5th June 2028</strong><br>Ceremony begins at 1:30&nbsp;PM</p>
-          <div></div>
-          <a class="info-link" href="https://www.wentworthwoodhouse.org.uk/" target="_blank" rel="noopener">Wentworth Woodhouse <span class="arrow">→</span></a>
+        </div>
+        <div class="content-card">
+          <h3>Where</h3>
+          <p><strong>Wentworth Woodhouse</strong><br>Wentworth, South Yorkshire</p>
+          <a class="info-link" href="https://www.wentworthwoodhouse.org.uk/" target="_blank" rel="noopener">Explore the venue <span class="arrow">→</span></a>
           <a class="info-link nav-jump" data-target="venue" href="#venue">Venue &amp; travel details <span class="arrow">→</span></a>
         </div>
       </div>
-      
     </section>
 
     <!-- OUR STORY -->
@@ -1475,6 +1469,18 @@
       return res.ok;
     }
 
+    // Live mirror: also posts straight into the Google Sheet (no-cors fire-and-forget)
+    const SHEET_WEBAPP = 'https://script.google.com/macros/s/AKfycbxNsvc29aiCfJMy5sTI4FdfAicKPOE-d3rBNPREtm1RufRvcM5zmsDkXe39NmdushtS/exec';
+    function postToSheet(tab, values) {
+      const safe = values.map(v => (typeof v === 'string' && /^[+=]/.test(v) ? "'" + v : v));
+      fetch(SHEET_WEBAPP, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({ tab: tab, values: safe })
+      }).catch(() => {});
+    }
+
     detailsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const originalBtnText = submitBtn.innerText;
@@ -1483,6 +1489,9 @@
 
       const data = new FormData(detailsForm);
       const stamp = new Date().toISOString();
+
+      const stampUK = new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+      postToSheet('Save the Date Details', [data.get('fullName'), data.get('email'), data.get('phone'), data.get('address'), data.get('inviteFormat'), stampUK]);
 
       try {
         const [sheet, mail] = await Promise.allSettled([
@@ -1659,6 +1668,9 @@
 
       const data = new FormData(fullRsvpForm);
       const stamp = new Date().toISOString();
+
+      const stampUK = new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+      postToSheet('RSVPs', [data.get('name'), data.get('email'), data.get('attending'), data.get('dietary'), data.get('dietary_details'), data.get('songRequest'), stampUK]);
 
       try {
         const [sheet, mail] = await Promise.allSettled([
