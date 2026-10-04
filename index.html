@@ -113,7 +113,7 @@
   .stage-title {
     position: absolute; top: clamp(9%, 12vh, 18%); left: 50%; transform: translateX(-50%);
     width: min(86vw, 420px); text-align: center; color: var(--cream);
-    transition: opacity .5s ease; pointer-events: none;
+    transition: opacity .9s ease; pointer-events: none;
   }
   .stage.opened .stage-title { opacity: 0; }
   .stage-title .kicker {
@@ -143,12 +143,12 @@
   }
   .envelope-wrap:hover { transform: translateY(-2px); }
 
-  .envelope-wrap:not(.opened) .flap { animation: wiggle 3.2s ease-in-out infinite; }
+  .envelope-wrap:not(.opened) .flap { animation: wiggle 4.4s ease-in-out infinite; }
 
   @keyframes wiggle {
     0%, 100% { transform: rotateX(0deg); }
-    6% { transform: rotateX(-8deg); }
-    12% { transform: rotateX(0deg); }
+    6% { transform: rotateX(-6deg); }
+    14% { transform: rotateX(0deg); }
   }
 
   .env-back {
@@ -180,7 +180,7 @@
   .stage.opened .pocket {
     overflow: visible;
     /* once the letter has risen, bring its layer in front of the envelope */
-    animation: card-to-front .01s linear 1.5s forwards;
+    animation: card-to-front .01s linear 2.45s forwards;
   }
   @keyframes card-to-front { to { z-index: 6; } }
 
@@ -191,7 +191,7 @@
     transform: translate(-50%, .4em) scale(.36);
     opacity: .98; border-radius: .25em; overflow: hidden;
     box-shadow: 0 .35em 1.4em rgba(20,30,38,.35);
-    transition: transform 1.05s cubic-bezier(.22,.9,.28,1.02) .55s, box-shadow 1.05s ease .55s;
+    transition: transform 1.9s cubic-bezier(.25,.85,.25,1.01) .75s, box-shadow 1.9s ease .75s;
     background: var(--blue);
   }
   .card img { display: block; width: 100%; height: auto; }
@@ -226,7 +226,7 @@
     background-size: 180px 180px, 100% 100%;
     clip-path: polygon(0% 0%, 100% 0%, 100% 32%, 50% 60%, 0% 32%);
     transform-origin: top center; transform-style: preserve-3d;
-    transition: transform .95s cubic-bezier(.6,-0.15,.32,1.22) .05s;
+    transition: transform 1.7s cubic-bezier(.45,0,.18,1.03) .1s;
     z-index: 4; filter: drop-shadow(0 2px 3px rgba(30,45,55,.22));
   }
   .stage.opened .flap { transform: rotateX(178deg); z-index: 1; }
@@ -248,7 +248,7 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-display); color: #4a3b1e; font-size: 1.15em; font-weight: 500;
     text-shadow: 0 1px 0 rgba(255,240,200,.65);
-    z-index: 5; transition: transform .55s cubic-bezier(.5,-0.3,.6,1.2) .12s, opacity .45s ease .12s;
+    z-index: 5; transition: transform 1.05s cubic-bezier(.55,.05,.35,1) .2s, opacity .9s ease .25s;
   }
   .seal::before { /* embossed wax rim */
     content: ''; position: absolute; inset: .18em; border-radius: inherit;
@@ -264,7 +264,7 @@
   .stage.opened .card {
     transform: translate(-50%, var(--card-lift, -14vh)) scale(1);
     box-shadow: 0 1.2em 3em rgba(20,30,38,.3);
-    animation: card-forward .5s ease 1.5s forwards;
+    animation: card-forward 1s ease-in-out 2.45s forwards;
   }
   /* Letter lifts towards you and fades in over the envelope front */
   @keyframes card-forward {
@@ -275,7 +275,7 @@
   .actions {
     display: flex; flex-direction: column; align-items: center; gap: .3em;
     margin-top: .5em; opacity: 0; transform: translateY(10px);
-    transition: opacity .6s ease 1.3s, transform .6s ease 1.3s;
+    transition: opacity 1s ease 2.6s, transform 1s ease 2.6s;
     pointer-events: none; z-index: 10;
   }
   .stage.opened .actions { opacity: 1; transform: translateY(0); pointer-events: auto; }
@@ -889,7 +889,7 @@
     <div class="actions">
       <button class="btn-primary" id="openFormBtn">Send Your Details</button>
       <button class="btn-secondary" id="replayBtn">Replay Animation</button>
-      <button class="pw-link-btn" id="openPwModalBtn">Have a Password?</button>
+      <button class="pw-link-btn" id="openPwModalBtn">Have a guest password?</button>
     </div>
   </div>
 </div>
@@ -947,7 +947,7 @@
     <div class="modal-header">
       <div>
         <div class="pw-kicker">N &amp; V &middot; Wentworth Woodhouse</div>
-        <h2>You're Too Early! Check back later.</h2>
+        <h2>Early Website Access</h2>
       </div>
       <button class="close-btn" id="closePwModalBtn" aria-label="Close">&times;</button>
     </div>
@@ -1031,7 +1031,7 @@
           <circle cx="4" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
           <circle cx="116" cy="9" r="1.4" fill="rgba(169,141,84,.8)"/>
         </svg>
-          <h2 style="font-size:1.6rem;">Welcome to our Wedding Website.!</h2>
+          <h2 style="font-size:1.6rem;">Welcome Friends &amp; Family!</h2>
           <p>We cannot wait to celebrate our love with all our favourite people. Here you will find all the details regarding our big day — the schedule, travel information and RSVP options.</p>
         </div>
       </div>
@@ -1455,31 +1455,56 @@
       }
     });
 
-    // --- 4. WEB3FORMS — SAVE THE DATE DETAILS ---
+    // --- 4. SAVE THE DATE DETAILS — spreadsheet + email ---
+    // Every submission is written into the Wedding Responses spreadsheet
+    // (exportable) AND emailed via Web3Forms as a backup copy.
+    const DETAILS_ENDPOINT = 'https://api.getjuno.com/api/v1/db/exposures/AYBCou2i705fizmEQc9dGBAMzu_ltx9DVUOYrE6jAvE7pnW8jdnXSdnNE2thuCzfTQ';
+
+    async function postJson(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      return res.ok;
+    }
+
     detailsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const originalBtnText = submitBtn.innerText;
       submitBtn.innerText = 'Sending…';
       submitBtn.disabled = true;
 
-      const formData = new FormData(detailsForm);
+      const data = new FormData(detailsForm);
+      const stamp = new Date().toISOString();
 
       try {
-        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-        const data = await response.json();
-        if (data.success) {
+        const [sheet, mail] = await Promise.allSettled([
+          postJson(DETAILS_ENDPOINT, {
+            name: data.get('fullName'),
+            email: data.get('email'),
+            phone: data.get('phone'),
+            address: data.get('address'),
+            invite_format: data.get('inviteFormat'),
+            submitted_at: stamp
+          }),
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+        ]);
+        const okSheet = sheet.status === 'fulfilled' && sheet.value;
+        const okMail = mail.status === 'fulfilled' && mail.value.ok;
+
+        if (okSheet || okMail) {
           detailsForm.reset();
           modalOverlay.classList.remove('active');
-          submitBtn.innerText = originalBtnText;
-          submitBtn.disabled = false;
           showToast('Thank you! Your address details have been sent.');
         } else {
           throw new Error('Submission failed');
         }
       } catch (err) {
+        showToast('Submission failed. Please try again later.', true);
+      } finally {
         submitBtn.innerText = originalBtnText;
         submitBtn.disabled = false;
-        showToast('Submission failed. Please try again later.', true);
       }
     });
 
@@ -1615,6 +1640,9 @@
       if (!other) dietaryOther.value = '';
     });
 
+    // --- 7. RSVP — spreadsheet + email ---
+    const RSVP_ENDPOINT = 'https://api.getjuno.com/api/v1/db/exposures/AYtKhHtirUQBi955d7BK4geFlLkxSAYJXjfsbWjZZAiO1Oh-TvP-e4QhnK-UZH8jjg';
+
     fullRsvpForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const originalBtnText = rsvpSubmitBtn.innerText;
@@ -1623,13 +1651,28 @@
       rsvpSuccess.style.display = 'none';
       rsvpError.style.display = 'none';
 
-      const formData = new FormData(fullRsvpForm);
+      const data = new FormData(fullRsvpForm);
+      const stamp = new Date().toISOString();
 
       try {
-        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-        const data = await response.json();
-        if (data.success) {
+        const [sheet, mail] = await Promise.allSettled([
+          postJson(RSVP_ENDPOINT, {
+            name: data.get('name'),
+            email: data.get('email'),
+            attending: data.get('attending'),
+            dietary: data.get('dietary'),
+            dietary_details: data.get('dietary_details'),
+            song_request: data.get('songRequest'),
+            submitted_at: stamp
+          }),
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+        ]);
+        const okSheet = sheet.status === 'fulfilled' && sheet.value;
+        const okMail = mail.status === 'fulfilled' && mail.value.ok;
+
+        if (okSheet || okMail) {
           fullRsvpForm.reset();
+          dietaryOther.style.display = 'none';
           rsvpSuccess.style.display = 'block';
         } else {
           throw new Error('Submission failed');
