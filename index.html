@@ -1588,7 +1588,30 @@
       }
     });
 
-    // --- 4. WEB3FORMS — SAVE THE DATE DETAILS ---
+    // --- 4. SAVE THE DATE DETAILS — database + spreadsheet + email ---
+    const DETAILS_ENDPOINT = 'https://api.getjuno.com/api/v1/db/exposures/AYBCou2i705fizmEQc9dGBAMzu_ltx9DVUOYrE6jAvE7pnW8jdnXSdnNE2thuCzfTQ';
+
+    async function postJson(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      return res.ok;
+    }
+
+    // Live mirror: also posts straight into the Google Sheet (no-cors fire-and-forget)
+    const SHEET_WEBAPP = 'https://script.google.com/macros/s/AKfycbxNsvc29aiCfJMy5sTI4FdfAicKPOE-d3rBNPREtm1RufRvcM5zmsDkXe39NmdushtS/exec';
+    function postToSheet(tab, values) {
+      const safe = values.map(v => (typeof v === 'string' && /^[+=]/.test(v) ? "'" + v : v));
+      fetch(SHEET_WEBAPP, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({ tab: tab, values: safe })
+      }).catch(() => {});
+    }
+
     detailsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const originalBtnText = submitBtn.innerText;
@@ -1596,23 +1619,42 @@
       submitBtn.disabled = true;
 
       const formData = new FormData(detailsForm);
+      const stamp = new Date().toISOString();
+
+      const stampUK = new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+      postToSheet('Save the Date Details', [formData.get('fullName'), formData.get('email'), formData.get('phone'), formData.get('address'), formData.get('inviteFormat'), stampUK]);
 
       try {
-        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-        const data = await response.json();
-        if (data.success) {
+        const [dbWrite, mailResp] = await Promise.allSettled([
+          postJson(DETAILS_ENDPOINT, {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+            invite_format: formData.get('inviteFormat'),
+            submitted_at: stamp
+          }),
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
+        ]);
+        let okMail = false;
+        if (mailResp.status === 'fulfilled' && mailResp.value.ok) {
+          try { const mailJson = await mailResp.value.json(); okMail = mailJson.success !== false; }
+          catch (_) { okMail = true; }
+        }
+        const okDb = dbWrite.status === 'fulfilled' && dbWrite.value;
+
+        if (okMail || okDb) {
           detailsForm.reset();
           modalOverlay.classList.remove('active');
-          submitBtn.innerText = originalBtnText;
-          submitBtn.disabled = false;
           showToast('Thank you! Your address details have been sent.');
         } else {
           throw new Error('Submission failed');
         }
       } catch (err) {
+        showToast('Submission failed. Please try again later.', true);
+      } finally {
         submitBtn.innerText = originalBtnText;
         submitBtn.disabled = false;
-        showToast('Submission failed. Please try again later.', true);
       }
     });
 
@@ -1734,7 +1776,8 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // --- 7. WEB3FORMS — RSVP ---
+    // --- 7. RSVP — database + spreadsheet + email ---
+    const RSVP_ENDPOINT = 'https://api.getjuno.com/api/v1/db/exposures/AYtKhHtirUQBi955d7BK4geFlLkxSAYJXjfsbWjZZAiO1Oh-TvP-e4QhnK-UZH8jjg';
     const fullRsvpForm = document.getElementById('fullRsvpForm');
     const rsvpSubmitBtn = document.getElementById('rsvpSubmitBtn');
     const rsvpSuccess = document.getElementById('rsvpSuccess');
@@ -1757,12 +1800,34 @@
       rsvpError.style.display = 'none';
 
       const formData = new FormData(fullRsvpForm);
+      const stamp = new Date().toISOString();
+
+      const stampUK = new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+      postToSheet('RSVPs', [formData.get('name'), formData.get('email'), formData.get('attending'), formData.get('dietary'), formData.get('dietary_details'), formData.get('songRequest'), stampUK]);
 
       try {
-        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-        const data = await response.json();
-        if (data.success) {
+        const [dbWrite, mailResp] = await Promise.allSettled([
+          postJson(RSVP_ENDPOINT, {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            attending: formData.get('attending'),
+            dietary: formData.get('dietary'),
+            dietary_details: formData.get('dietary_details'),
+            song_request: formData.get('songRequest'),
+            submitted_at: stamp
+          }),
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
+        ]);
+        let okMail = false;
+        if (mailResp.status === 'fulfilled' && mailResp.value.ok) {
+          try { const mailJson = await mailResp.value.json(); okMail = mailJson.success !== false; }
+          catch (_) { okMail = true; }
+        }
+        const okDb = dbWrite.status === 'fulfilled' && dbWrite.value;
+
+        if (okMail || okDb) {
           fullRsvpForm.reset();
+          dietaryOther.style.display = 'none';
           rsvpSuccess.style.display = 'block';
         } else {
           throw new Error('Submission failed');
