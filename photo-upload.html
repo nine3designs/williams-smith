@@ -1,0 +1,78 @@
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share Your Photos — Natalie &amp; Victoria · 5th June 2028</title>
+<meta name="description" content="Natalie & Victoria are getting married on Monday 5th June 2028 at Wentworth Woodhouse, South Yorkshire. RSVP, schedule, travel and everything you need for the day.">
+<meta name="theme-color" content="#7e96a3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23cbb27e'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='24' fill='%23445866' text-anchor='middle'%3EN%26V%3C/text%3E%3C/svg%3E">
+<meta property="og:title" content="Natalie & Victoria — Save the Date">
+<meta property="og:description" content="Monday 5th June 2028 · Wentworth Woodhouse, South Yorkshire">
+<meta property="og:type" content="website">
+
+<!-- Fonts: Melodrama (display) & Cabinet Grotesk (body) via Fontshare -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&f[]=melodrama@400,500,600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
+</head>
+<body class="locked">
+
+<div id="fullSiteView">
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand nav-jump">
+      <span class="monogram">N&V</span>
+      <span class="names">Natalie &amp; Victoria</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <svg class="burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-item">Home</a></li>
+      <li><a href="our-story.html" class="nav-item">Our Story</a></li>
+      <li class="has-sub" id="weddingMenu">
+        <a href="wedding.html" class="nav-parent" aria-haspopup="true" aria-expanded="false">The Wedding<svg class="caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></a>
+        <ul class="nav-sub">
+          <li><a href="whos-who.html" class="nav-item">Who&rsquo;s Who</a></li>
+          <li><a href="venue.html" class="nav-item">The Venue</a></li>
+          <li><a href="travel.html" class="nav-item">Taxis + Travel</a></li>
+          <li><a href="stay.html" class="nav-item">Accommodation</a></li>
+        </ul>
+      </li>
+      <li><a href="rsvp.html" class="nav-item">RSVP</a></li>
+      <li><a href="photo-upload.html" class="nav-item active">Photos</a></li>
+      <li><a href="faqs.html" class="nav-item">FAQs</a></li>
+    </ul>
+  </header>
+  <main class="site-container">
+
+    <section id="photo-upload" class="page-section">
+      <h1 class="section-title">Photo Upload</h1>
+      <div class="section-subtitle">Share Your Favourite Memories With Us</div>
+
+      <div class="content-card form-card">
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose photos to upload">
+          <div class="dz-icon">📸</div>
+          <h3>Drag &amp; Drop Photos Here</h3>
+          <p>or tap to select files from your phone or device</p>
+          <input type="file" id="photoInput" multiple accept="image/*" style="display:none;">
+        </div>
+        <div id="filePreviewList"></div>
+        <p class="form-note">Your chosen photos are kept safe on this device — we'll collect them from you after the big day.</p>
+      </div>
+    </section>
+
+    <!-- FAQS -->
+
+  </main>
+
+  <footer class="site-footer">
+    <span class="names">Natalie &amp; Victoria</span>
+    Monday 5th June 2028 &middot; <a href="https://www.wentworthwoodhouse.org.uk/" target="_blank" rel="noopener">Wentworth Woodhouse</a>, South Yorkshire
+  </footer>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
