@@ -127,6 +127,14 @@
   .envelope-wrap:hover { transform: translateY(-2px); }
 
   .envelope-wrap:not(.opened) .flap { animation: wiggle 3.2s ease-in-out infinite; }
+  .envelope-wrap:not(.opened) .seal { animation: seal-invite 2.6s ease-in-out infinite; }
+
+  @keyframes seal-invite {
+    0%, 72%, 100% { transform: translate(-50%, -50%) scale(1); }
+    80% { transform: translate(-50%, -50%) scale(.91); }
+    88% { transform: translate(-50%, -50%) scale(1.04); }
+    94% { transform: translate(-50%, -50%) scale(1); }
+  }
 
   @keyframes wiggle {
     0%, 100% { transform: rotateX(0deg); }
@@ -215,7 +223,7 @@
   .stage.opened .flap { transform: rotateX(178deg); z-index: 1; }
 
   .seal {
-    position: absolute; left: 50%; top: 3.41em; width: 3.45em; height: 3.45em;
+    position: absolute; left: 50%; top: 3.85em; width: 3.45em; height: 3.45em;
     transform: translate(-50%, -50%);
     border-radius: 47% 53% 50% 50% / 52% 49% 51% 48%;
     background:
@@ -243,7 +251,7 @@
     background: radial-gradient(ellipse at center, rgba(255,252,240,.9), rgba(255,252,240,0) 70%);
     border-radius: 50%; transform: rotate(-18deg); filter: blur(1px); pointer-events: none;
   }
-  .stage.opened .seal { transform: translate(-50%, -50%) scale(.2) rotate(45deg); opacity: 0; }
+  .stage.opened .seal { animation: none; transform: translate(-50%, -50%) scale(.2) rotate(45deg); opacity: 0; }
   .stage.opened .card {
     transform: translate(-50%, var(--card-lift, -14vh)) scale(1);
     box-shadow: 0 1.2em 3em rgba(20,30,38,.3);
@@ -370,7 +378,6 @@
     .stage-title { top: 6%; }
     .stage-title h1 { font-size: clamp(1.4rem, 5.5vw, 1.9rem); }
   }
-
   /* =========================================================
      2. FULL SITE VIEW — matches the stationery
      ========================================================= */
