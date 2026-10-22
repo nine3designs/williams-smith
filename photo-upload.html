@@ -36,8 +36,7 @@
         <ul class="nav-sub">
           <li><a href="whos-who.html" class="nav-item">Who&rsquo;s Who</a></li>
           <li><a href="venue.html" class="nav-item">The Venue</a></li>
-          <li><a href="travel.html" class="nav-item">Taxis + Travel</a></li>
-          <li><a href="stay.html" class="nav-item">Accommodation</a></li>
+          <li><a href="travel.html" class="nav-item">Travel + Accommodation</a></li>
         </ul>
       </li>
       <li><a href="rsvp.html" class="nav-item">RSVP</a></li>
@@ -58,8 +57,13 @@
           <p>or tap to select files from your phone or device</p>
           <input type="file" id="photoInput" multiple accept="image/*" style="display:none;">
         </div>
-        <div id="filePreviewList"></div>
-        <p class="form-note">Your chosen photos are kept safe on this device — we'll collect them from you after the big day.</p>
+        <p class="form-note">Photos selected here are only previewed on this device; they aren&rsquo;t uploaded or shared with other guests yet. For now, share your photos using <strong>#williams-smith</strong>.</p>
+      </div>
+
+      <div class="content-card photo-gallery-card">
+        <h2>Photo Gallery</h2>
+        <p class="gallery-empty" id="galleryEmpty">Your selected photos will appear here.</p>
+        <div id="filePreviewList" aria-live="polite"></div>
       </div>
     </section>
 

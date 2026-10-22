@@ -420,6 +420,7 @@
     const dropzone = document.getElementById('dropzone');
     const photoInput = document.getElementById('photoInput');
     const filePreviewList = document.getElementById('filePreviewList');
+    const galleryEmpty = document.getElementById('galleryEmpty');
 
     if (dropzone && photoInput) {
       dropzone.addEventListener('click', () => photoInput.click());
@@ -455,6 +456,9 @@
               const img = document.createElement('img');
               img.src = e.target.result;
               img.alt = file.name;
+              img.title = file.name;
+              img.loading = 'lazy';
+              if (galleryEmpty) galleryEmpty.hidden = true;
               filePreviewList.appendChild(img);
             };
             reader.readAsDataURL(file);
